@@ -1,0 +1,52 @@
+### Kube Master #####
+[[inputs.procstat]]
+  pattern="/usr/bin/dockerd"
+
+[[inputs.procstat]]
+  pattern="/usr/local/bin/etcd"
+
+[[inputs.procstat]]
+  pattern="kube-apiserver"
+
+[[inputs.procstat]]
+  pattern="kube-scheduler"
+
+[[inputs.procstat]]
+  pattern="kube-controller-manager"
+
+[[inputs.procstat]]
+  pattern="kubelet"
+
+[[inputs.procstat]]
+  pattern="kube-proxy"
+  
+[[inputs.procstat]]
+  pattern="/usr/bin/dockerd-current"
+
+  
+### Kube worker #####
+[[inputs.procstat]]
+  pattern="/usr/bin/dockerd"
+[[inputs.procstat]]
+  pattern="kubelet"
+[[inputs.procstat]]
+  pattern="kube-proxy"
+  
+### registry #####
+[[inputs.procstat]]
+  pattern="/usr/bin/dockerd"
+[[inputs.procstat]]
+  pattern="registry"
+[[inputs.procstat]]
+  pattern="nexus"
+  
+### portal #####
+[[inputs.procstat]]
+  pattern="/usr/bin/dockerd"
+[[inputs.procstat]]
+  pattern="rancher"
+  
+### git #####
+[[inputs.procstat]]
+  pattern="gitea"
+

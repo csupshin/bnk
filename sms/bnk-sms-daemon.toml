@@ -1,0 +1,140 @@
+#설정파일 제목
+title="bnk-sms-Daemon"
+
+batchInterval=10
+bootTimeSecond=900
+monitVmList=["pclpipk8m1","pclpipk8m2","pclpipk8m3","pclpipk8w1","pclpipk8w2","pclpipk8w3"]
+cephEnabled=true
+cephUrl=["101.55.50.228:7000"]
+cpuOverCommit=8
+memOverCommit=1.0
+pidFile="bnk-sms-daemon.pid"
+
+[hypervisorThresholdInfo]
+cpuWarning=80
+cpuCritical=90
+memoryWarning=80
+memoryCritical=90
+diskWarning=80
+diskCritical=90
+
+[vmThresholdInfo]
+cpuWarning=80
+cpuCritical=90
+memoryWarning=80
+memoryCritical=90
+diskWarning=80
+diskCritical=90
+
+#Kubernetes Master Node
+[[processLiveCheck]]
+hostList = ["pclpipk8m1","pclpipk8m2","pclpipk8m3"]
+processList=["dockerd","etcd","kube-apiserver","kube-scheduler","kube-controller-manager","kubelet","kube-proxy"]
+
+#Kubernetes Worker Node
+[[processLiveCheck]]
+hostList = ["pclpipk8w1","pclpipk8w2","pclpipk8w3"]
+processList=["dockerd","kubelet","kube-proxy"]
+
+#registry Process
+#Docker, registry, java(nexus)
+[[processLiveCheck]]
+hostList = ["pclpipreg1","pclpipreg2"]
+processList=["dockerd-current","registry","java"]
+
+#portal Process
+[[processLiveCheck]]
+hostList = ["pclpipppr1"]
+processList=["rancher","dockerd"]
+
+#Git Process
+[[processLiveCheck]]
+hostList = ["pclpipgit1"]
+processList=["gitea"]
+
+[smsFileInfo]
+smsFilePath = "./smsdir"
+cpuFileName="cpu"
+memoryFileName="memory"
+diskFileName="disk"
+processFileName="process"
+
+#데이터베이스 환경설정
+[database]
+#DB 드라이버 명
+driverName = "mysql"
+#DB계정 ID
+id= "monitor"
+#DB계정 패스워드
+password = "cromon123"
+
+#DB 접속정보 리스트 ip:port
+hosts=["101.55.50.247"]
+port="3306"
+#DB(스키마)명
+database = "monitdb"
+#캐릭터셋
+charset = "utf8"
+#최소 커넥션 수
+maxIdleConns=0
+#최대 커넥션 수
+maxOpenConns=3
+
+#관리 환경 설정
+[admin]
+#데몬 관리(셧다운, 설정 리로드 등)를 위한 소켓 포트
+bindAddress=":9100"
+#connection timeout : second
+timeout=5
+
+#로깅 환경 설정
+[logger]
+#파일로깅시 로그파일 경로
+filename = "./logs/bnk-sms-daemon.log"
+#로그파일 크기(MB), 파일크기에 도달시 백업 후 새로운 로그파일 생성
+maxsize = 100
+#백업로그파일 최대 보관기간(day)
+maxage = 10
+#최대 백업파일 갯수, 초과시 오랜된 백업파일 삭제
+maxbackups = 100
+#로깅시 타임스탬프의 기준시, true일경우 로컬타임 적용, false일경우 UTC표준시 적용
+localtime = true
+#백업파일에 대한 압축 여부
+compress = true
+#로그 레벨 설정
+level = "DEBUG"
+#파일로그 사용 여부
+fileLog = true
+#콘솔로그 사용 여부
+consoleLog = true
+
+#InfluxDB설정
+[influxDb]
+#접속정보
+addr = "http://101.55.50.247:8086"
+#DB계정 ID
+userName = "admin"
+#DB계정 패스워드
+password = "cromon123"
+#타임아웃 설정
+timeout = 10
+#DB명
+database = "metrics"
+#평균치 조회 기간(second)
+averageTime = 180
+
+[openstack]
+regionName="RegionOne"
+domainName="default"
+username="admin"
+password="crossent1234"
+tenantName="admin"
+tenantId="fdf0bcd23e37475bb50a11a1b6ebcf0a"
+identityEndpoint="http://101.55.50.228:5000/v3"
+keystoneUrl="http://101.55.50.228:5000/v3"
+
+[nova]
+novaUrl="http://101.55.50.228:8774"
+novaVersion="v2.1"
+novaTenant_id="fdf0bcd23e37475bb50a11a1b6ebcf0a"
+

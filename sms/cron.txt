@@ -1,0 +1,4 @@
+FILE_CRONTAB="/var/spool/cron/root"
+rexe sudo tee ${FILE_CRONTAB} << EOF
+* * * * * ${API_HOME}/bin/api-pid-guard.sh ${API_HOME}/bin/api-daemon.pid
+EOF
