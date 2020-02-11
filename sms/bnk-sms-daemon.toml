@@ -1,56 +1,68 @@
 #설정파일 제목
 title="bnk-sms-Daemon"
 
-batchInterval=10
+batchInterval=30
 bootTimeSecond=900
-monitVmList=["pclpipk8m1","pclpipk8m2","pclpipk8m3","pclpipk8w1","pclpipk8w2","pclpipk8w3"]
+#monitVmList=["monlogdb01"]
 cephEnabled=true
 cephUrl=["101.55.50.228:7000"]
 cpuOverCommit=8
 memOverCommit=1.0
 pidFile="bnk-sms-daemon.pid"
 
+
 [hypervisorThresholdInfo]
 cpuWarning=80
 cpuCritical=90
-memoryWarning=80
+memoryWarning=30
 memoryCritical=90
 diskWarning=80
 diskCritical=90
 
-[vmThresholdInfo]
-cpuWarning=80
-cpuCritical=90
-memoryWarning=80
-memoryCritical=90
-diskWarning=80
-diskCritical=90
+[[monitVmCheck]]
+hostList = ["pclpipk8m1","pclpipk8m2"]
+cpuWarning=60
+cpuCritical=70
+memoryWarning=20
+memoryCritical=30
+diskWarning=5
+diskCritical=10
+
+[[monitVmCheck]]
+hostList = ["pclpipk8w1","pclpipk8w2"]
+cpuWarning=60
+cpuCritical=70
+memoryWarning=60
+memoryCritical=70
+diskWarning=70
+diskCritical=80
 
 #Kubernetes Master Node
 [[processLiveCheck]]
 hostList = ["pclpipk8m1","pclpipk8m2","pclpipk8m3"]
-processList=["dockerd","etcd","kube-apiserver","kube-scheduler","kube-controller-manager","kubelet","kube-proxy"]
+processList=["dockerd","etcd2","kube-apiserver","kube-scheduler","kube-controller-manager","kubelet","kube-proxy"]
 
 #Kubernetes Worker Node
-[[processLiveCheck]]
-hostList = ["pclpipk8w1","pclpipk8w2","pclpipk8w3"]
-processList=["dockerd","kubelet","kube-proxy"]
+#[[processLiveCheck]]
+#hostList = ["pclpipk8w1","pclpipk8w2","pclpipk8w3"]
+#processList=["dockerd","kubelet","kube-proxy"]
 
 #registry Process
 #Docker, registry, java(nexus)
-[[processLiveCheck]]
-hostList = ["pclpipreg1","pclpipreg2"]
-processList=["dockerd-current","registry","java"]
+
+#[[processLiveCheck]]
+#hostList = ["pclpipreg1","pclpipreg2"]
+#processList=["dockerd-current","registry","java"]
 
 #portal Process
-[[processLiveCheck]]
-hostList = ["pclpipppr1"]
-processList=["rancher","dockerd"]
+#[[processLiveCheck]]
+#hostList = ["pclpipppr1"]
+#processList=["rancher","dockerd"]
 
 #Git Process
-[[processLiveCheck]]
-hostList = ["pclpipgit1"]
-processList=["gitea"]
+#[[processLiveCheck]]
+#hostList = ["pclpipgit1"]
+#processList=["gitea"]
 
 [smsFileInfo]
 smsFilePath = "./smsdir"
@@ -67,18 +79,6 @@ driverName = "mysql"
 id= "monitor"
 #DB계정 패스워드
 password = "cromon123"
-
-#DB 접속정보 리스트 ip:port
-hosts=["101.55.50.247"]
-port="3306"
-#DB(스키마)명
-database = "monitdb"
-#캐릭터셋
-charset = "utf8"
-#최소 커넥션 수
-maxIdleConns=0
-#최대 커넥션 수
-maxOpenConns=3
 
 #관리 환경 설정
 [admin]
@@ -121,7 +121,7 @@ timeout = 10
 #DB명
 database = "metrics"
 #평균치 조회 기간(second)
-averageTime = 180
+averageTime = 60
 
 [openstack]
 regionName="RegionOne"
@@ -137,4 +137,3 @@ keystoneUrl="http://101.55.50.228:5000/v3"
 novaUrl="http://101.55.50.228:8774"
 novaVersion="v2.1"
 novaTenant_id="fdf0bcd23e37475bb50a11a1b6ebcf0a"
-
