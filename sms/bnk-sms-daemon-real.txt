@@ -1,0 +1,197 @@
+
+
+
+#설정파일 제목
+title="bnk-sms-Daemon"
+
+batchInterval=60
+bootTimeSecond=900
+cephEnabled=true
+cephUrl=["192.180.100.3:7000","192.180.100.1:7000","192.180.100.2:7000"]
+cpuOverCommit=8
+memOverCommit=1.0
+pidFile="bnk-sms-daemon.pid"
+
+[hypervisorThresholdInfo]
+cpuWarning=20
+cpuCritical=90
+memoryWarning=30
+memoryCritical=90
+diskWarning=75
+diskCritical=85
+
+#PI_SVC1 , PI_Platform VM resource Monit
+[[monitVmCheck]]
+hostList = ["pclpis1lb1","pclpis1lb2","pclpistgw1", "pclpistgw2","pclpisicp1","pclpisk8m1","pclpisk8m2","pclpisk8m3","pclpisk8w1","pclpisk8w2","pclpisk8w3","pclpisk8w4","pclpisk8w5","pclpisk8w6","pclpisbak1","pclpipplb1","pclpipplb2","pclpipppr1","pclpipicp1","pclpipreg1","pclpipreg2","pclpipbld1","pclpipbld2","pclpipk8m1","pclpipk8m2","pclpipk8m3","pclpipk8w1","pclpipk8w2","pclpipk8w3","pclpipk8w4","pclpipk8w5","pclpipk8w6","pclpipbak1","pcldisbak1"]
+cpuWarning=80
+cpuCritical=90
+memoryWarning=80
+memoryCritical=90
+diskWarning=80
+diskCritical=90
+
+#DI_SVC1, DI_PLATFORM  VM resource Monit
+[[monitVmCheck]]
+hostList = ["dcldistgw1","dcldistgw2","dcldisicp1","dcldisk8m1","dcldisk8m2","dcldisk8m3","dcldisk8w1","dcldisk8w2","dcldisk8w3","dcldisadf1","pcldisbak1","dcldipplb1","dcldipplb2","dcldipicp1","dcldipgit1","dcldipgit2","dcldipppt1","dcldipbld1","dcldipbld2","dcldipk8m1","dcldipk8m2","dcldipk8m3","dcldipk8w1","dcldipk8w2","dcldipk8w3","pcldipbak1"]
+cpuWarning=80
+cpuCritical=90
+memoryWarning=80
+memoryCritical=90
+diskWarning=80
+diskCritical=90
+
+#Di LB (haproxy, keepalived )
+[[processLiveCheck]]
+hostList = ["dclddsslb1","dclddsslb2","dclddpplb1","dclddpplb2","dcldisplb1","dcldisplb2","dcldipplb1","dcldipplb2"]
+processList=["haproxy","keepalived"]
+
+#Di gitea 
+[[processLiveCheck]]
+hostList = ["dcldipgit1","dcldipgit2"]
+processList=["gitea"]
+
+#Di build server
+[[processLiveCheck]]
+hostList = ["dcldipbld1","dcldipbld2"]
+processList=["java"]
+
+#DI_SVC1 Kubernetes Master Node
+[[processLiveCheck]]
+hostList = ["dcldisk8m1","dcldisk8m2","dcldisk8m3"]
+processList=["dockerd","etcd","kube-apiserver","kube-scheduler","kube-controller-manager","kubelet","kube-proxy"]
+
+
+#DI_SVC1 Kubernetes Worker Node
+[[processLiveCheck]]
+hostList = ["dcldisk8w1","dcldisk8w2","dcldisk8w3"]
+processList=["dockerd","kubelet","kube-proxy"]
+
+# DI_Platform Kubernetes Master Node
+[[processLiveCheck]]
+hostList = ["dcldipk8m1","dcldipk8m2","dcldipk8m3"]
+processList=["dockerd","etcd","kube-apiserver","kube-scheduler","kube-controller-manager","kubelet","kube-proxy"]
+
+
+# DI_Platform Kubernetes Worker Node
+[[processLiveCheck]]
+hostList = ["dcldipk8w1","dcldipk8w2","dcldipk8w3"]
+processList=["dockerd","kubelet","kube-proxy"]
+
+#PI_SVC Kubernetes Master Node
+[[processLiveCheck]]
+hostList = ["pclpisk8m1","pclpisk8m2","pclpisk8m3"]
+processList=["dockerd","etcd","kube-apiserver","kube-scheduler","kube-controller-manager","kubelet","kube-proxy"]
+
+#PI_SVC Kubernetes Worker Node
+[[processLiveCheck]]
+hostList = ["pclpisk8w1","pclpisk8w2","pclpisk8w3","pclpisk8w4","pclpisk8w5","pclpisk8w6"]
+processList=["dockerd","kubelet","kube-proxy"]
+
+#PI_PLATFORM Kubernetes Master Node
+[[processLiveCheck]]
+hostList = ["pclpipk8m1","pclpipk8m2","pclpipk8m3"]
+processList=["dockerd","etcd","kube-apiserver","kube-scheduler","kube-controller-manager","kubelet","kube-proxy"]
+
+#PI_PLATFORM Kubernetes Worker Node
+[[processLiveCheck]]
+hostList = ["pclpipk8w1","pclpipk8w2","pclpipk8w3","pclpipk8w4","pclpipk8w5","pclpipk8w6"]
+processList=["dockerd","kubelet","kube-proxy"]
+
+# PI_Platform Rancher
+[[processLiveCheck]]
+hostList = ["pclpipppr1"]
+processList=["dockerd","rancher"]
+
+# PI_Platform Registry
+[[processLiveCheck]]
+hostList = ["pclpipreg1","pclpipreg1"]
+processList=["dockerd","registry"]
+
+# PI_Platform Build Server
+[[processLiveCheck]]
+hostList = ["pclpipbld1","pclpipbld2"]
+processList=["dockerd","java"]
+
+#PI_SVC1 LB (haproxy, keepalived )
+[[processLiveCheck]]
+hostList = ["pclpis1lb1","pclpis1lb2","pclpipplb1","pclpipplb2"]
+processList=["haproxy","keepalived"]
+
+#Git Process Check
+[[processLiveCheck]]
+hostList = ["dcldipgit1","dcldipgit2"]
+processList=["gitea"]
+
+#DD-Platform registry Process
+#Docker, registry, java(nexus)
+[[processLiveCheck]]
+hostList = ["dclddpreg1","dclddpreg1"]
+processList=["java","dockerd","registry"]
+
+
+[smsFileInfo]
+smsFilePath = "/data/monit"
+cpuFileName="cpu"
+memoryFileName="memory"
+diskFileName="disk"
+processFileName="process"
+
+
+#관리 환경 설정
+[admin]
+#데몬 관리(셧다운, 설정 리로드 등)를 위한 소켓 포트
+bindAddress=":9100"
+#connection timeout : second
+timeout=5
+
+#로깅 환경 설정
+[logger]
+#파일로깅시 로그파일 경로
+filename = "/log/monit/bnk-sms-daemon.log"
+#로그파일 크기(MB), 파일크기에 도달시 백업 후 새로운 로그파일 생성
+maxsize = 100
+#백업로그파일 최대 보관기간(day)
+maxage = 10
+#최대 백업파일 갯수, 초과시 오랜된 백업파일 삭제
+maxbackups = 100
+#로깅시 타임스탬프의 기준시, true일경우 로컬타임 적용, false일경우 UTC표준시 적용
+localtime = true
+#백업파일에 대한 압축 여부
+compress = true
+#로그 레벨 설정
+level = "DEBUG"
+#파일로그 사용 여부
+fileLog = true
+#콘솔로그 사용 여부
+consoleLog = false 
+
+#InfluxDB설정
+[influxDb]
+#접속정보
+addr = "http://192.160.100.200:8086"
+#DB계정 ID
+userName = "admin"
+#DB계정 패스워드
+password = "cromon123"
+#타임아웃 설정
+timeout = 10
+#DB명
+database = "metrics"
+#평균치 조회 기간(second)
+averageTime = 180
+
+[openstack]
+regionName="RegionOne"
+domainName="default"
+username="admin"
+password="Zmffkdnem1!"
+tenantName="admin"
+tenantId="138ed6b62ca042719c0772e217621d9e"
+identityEndpoint="http://192.180.100.100:25000/v3"
+keystoneUrl="http://192.180.100.100:25000/v3"
+
+[nova]
+novaUrl="http://192.180.100.100:8774"
+novaVersion="v2.1"
+novaTenant_id="138ed6b62ca042719c0772e217621d9e"
+
