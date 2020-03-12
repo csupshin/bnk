@@ -1,7 +1,7 @@
 #설정파일 제목
 title="bnk-sms-Daemon"
 
-batchInterval=10
+batchInterval=7
 bootTimeSecond=900
 #monitVmList=["monlogdb01"]
 cephEnabled=true
@@ -9,59 +9,65 @@ cephUrl=["101.55.50.228:7000"]
 cpuOverCommit=8
 memOverCommit=1.0
 pidFile="bnk-sms-daemon.pid"
+logMsgKeysword=[""]
 
 [hypervisorThresholdInfo]
-cpuWarning=90
+cpuWarning=75
+cpuCritical=85
+memoryWarning=75
+memoryCritical=85
+diskWarning=75
+diskCritical=85
+
+[cephPoolThresholdInfo]
+poolWarning=80
+poolCritical=90
+
+[[monitVmCheck]]
+hostList = ["pclpipk8m1","pclpipk8m2","pclpipk8m3"]
+cpuWarning=70
 cpuCritical=80
-memoryWarning=60
-memoryCritical=90
-diskWarning=70
-diskCritical=90
-
-[[monitVmCheck]]
-hostList = ["pclpipk8m1","pclpipk8m2"]
-cpuWarning=50
-cpuCritical=70
-memoryWarning=70
+memoryWarning=40
 memoryCritical=80
-diskWarning=50
+diskWarning=70
 diskCritical=80
 
 [[monitVmCheck]]
-hostList = ["pclpipk8w1","pclpipk8w2",""]
-cpuWarning=60
-cpuCritical=70
-memoryWarning=60
-memoryCritical=70
+hostList = ["pclpipk8w1","pclpipk8w2","pclpipk8w3"]
+cpuWarning=25
+cpuCritical=35
+memoryWarning=65
+memoryCritical=75
 diskWarning=70
 diskCritical=80
+
 
 #Kubernetes Master Node
 [[processLiveCheck]]
 hostList = ["pclpipk8m1","pclpipk8m2","pclpipk8m3"]
-processList=["dockerd","kube-apiserver","kube-scheduler","kube-controller-manager","kubelet","kube-proxy"]
+processList=["dockerd","etcd","kube-apiserver","kube-scheduler","kube-controller-manager","kubelet","kube-proxy"]
 
 #Kubernetes Worker Node
-#[[processLiveCheck]]
-#hostList = ["pclpipk8w1","pclpipk8w2","pclpipk8w3"]
-#processList=["dockerd","kubelet","kube-proxy"]
+[[processLiveCheck]]
+hostList = ["pclpipk8w1","pclpipk8w2","pclpipk8w3"]
+processList=["dockerd","kubelet","kube-proxy"]
 
 #registry Process
 #Docker, registry, java(nexus)
 
-#[[processLiveCheck]]
-#hostList = ["pclpipreg1","pclpipreg2"]
-#processList=["dockerd-current","registry","java"]
+[[processLiveCheck]]
+hostList = ["pclpipreg1","pclpipreg2"]
+processList=["dockerd-current","registry"]
 
 #portal Process
-#[[processLiveCheck]]
-#hostList = ["pclpipppr1"]
-#processList=["rancher","dockerd"]
+[[processLiveCheck]]
+hostList = ["pclpipppr1"]
+processList=["rancher","dockerd"]
 
 #Git Process
-#[[processLiveCheck]]
-#hostList = ["pclpipgit1"]
-#processList=["gitea"]
+[[processLiveCheck]]
+hostList = ["pclpipgit1"]
+processList=["gitea"]
 
 [smsFileInfo]
 #smsFilePath = "./smsdir"
@@ -102,7 +108,7 @@ localtime = true
 #백업파일에 대한 압축 여부
 compress = true
 #로그 레벨 설정
-level = "DEBUG"
+level = "INFO"
 #파일로그 사용 여부
 fileLog = true
 #콘솔로그 사용 여부
@@ -137,3 +143,8 @@ keystoneUrl="http://101.55.50.228:5000/v3"
 novaUrl="http://101.55.50.228:8774"
 novaVersion="v2.1"
 novaTenant_id="fdf0bcd23e37475bb50a11a1b6ebcf0a"
+
+#[elastic]
+#elasticUrl="101.55.50.247:9200"
+#gmtTimeGapHour=9
+#logIndexPrefix="log"
