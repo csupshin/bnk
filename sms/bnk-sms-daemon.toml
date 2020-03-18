@@ -1,7 +1,7 @@
 #설정파일 제목
 title="bnk-sms-Daemon"
 
-batchInterval=7
+batchInterval=2
 bootTimeSecond=900
 #monitVmList=["monlogdb01"]
 cephEnabled=true
@@ -9,7 +9,8 @@ cephUrl=["101.55.50.228:7000"]
 cpuOverCommit=8
 memOverCommit=1.0
 pidFile="bnk-sms-daemon.pid"
-logMsgKeysword=[""]
+#volumeCheckCommand="/home/csupshin/test/aa.sh"
+#logMsgKeysword=[""]
 
 [hypervisorThresholdInfo]
 cpuWarning=75
@@ -23,8 +24,12 @@ diskCritical=85
 poolWarning=80
 poolCritical=90
 
+[volumeThresholdInfo]
+volumeWarning=75
+volumeCritical=90
+
 [[monitVmCheck]]
-hostList = ["pclpipk8m1","pclpipk8m2","pclpipk8m3"]
+hostList = ["pclpipk8m1", "pclpipk8m2","pclpipk8m3"]
 cpuWarning=70
 cpuCritical=80
 memoryWarning=40
@@ -123,11 +128,13 @@ userName = "admin"
 #DB계정 패스워드
 password = "cromon123"
 #타임아웃 설정
-timeout = 10
+timeout=10
 #DB명
 database = "metrics"
 #평균치 조회 기간(second)
-averageTime = 60
+averageTime=60
+#Process Live Check Time
+processTime=70
 
 [openstack]
 regionName="RegionOne"
