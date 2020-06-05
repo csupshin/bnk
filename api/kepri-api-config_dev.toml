@@ -1,0 +1,174 @@
+
+#설정파일 제목
+title="HubPopMonitoring System"
+#( IaaS : IaaS 만 사용 , PaaS : PaaS 만 사용, ALL : IaaS, PaaS 모두 사용)
+monitoringType="All"
+#monitoring_type="IaaS"
+#monitoring_type="PaaS"
+storageNodeEnabled=true
+networkNodeEnabled=true
+# 기타 Baremetal Node
+# Oracle/k8s 등 모니터링 요청에 의해 추가
+etcNodeEnabled=false
+portalNodeEnabled=false
+cephEnabled=true
+cephAuth=false
+cephUserName="admin"
+cephPwd="crossent1234"
+cephUrl=["101.55.126.196:7000", "101.55.126.197:7000"]
+
+
+emailEnabled=false
+portalUrl="http://www.kepri-demo.crossent.com"
+authcheckEnabled=false
+tenantPortalMappingPrefix="prd_"
+cpuOverCommit=16
+memOverCommit=1.0
+
+iaasDiskDevice="sda"
+vmDiskDevice="sda"
+paasDiskDevice="vda"
+iaasNetworkInterface="eno"
+vmNetworkInterface="ens"
+paasNetworkInterface="vda"
+portalProcessMonitEnabled=true
+openstackProcessMonitEnabled=true
+#가용성 사용여부
+availabilityMonitEnabled=true
+gormLogMode=true
+
+[portal]
+portalTenantId="b9f3ae9bc14d4bcd9901aba3c015f765"
+dnsRouterLbVmName=["portal-dns-router-lb"]
+dnsRouterVmName=["dns-router"]
+dnsRouterRdpProcessName="cx-iptable"
+dnsRouterWebPort=80
+dnsRouterSshPort=2222
+dnsRouterMonitPort=1936
+portalLbVmName=["portal-lb"]
+portalLbMonitPort=1936
+portalWebVmName=["portal-web"]
+portalWebPort=80
+portalApiVmName=["portal-api"]
+portalApiUaaPort=8080
+portalApiCommPort=8081
+portalApiIaaSPort=8082
+portalApiPaaSPort=8083
+portalDBVmName=["portal-db"]
+portalDbPort=3306
+portalRedisVmName=["portal-db"]
+portalRedisPort=6379
+
+[elastic]
+elasticUrl="101.55.126.198:9200"
+gmtTimeGapHour=9
+logIndexPrefix="log"
+
+#관리 환경 설정
+[admin]
+#데몬 관리(셧다운, 설정 리로드 등)를 위한 소켓 포트
+bindAddress=":9000"
+#connection timeout : second
+timeout=60
+
+# 모니터링 데이터베이스 환경설정
+[database]
+#DB 드라이버 명
+driverName = "mysql"
+#DB계정 ID
+id= "monitor"
+#id= "root"
+#DB계정 패스워드
+password = "cromon123"
+#password = "password"
+#DB 접속정보 리스트 ip:port
+hosts=["101.55.126.198"]
+#hosts=["127.0.0.1"]
+port="3306"
+#DB(스키마)명
+database = "monitdb"
+#캐릭터셋
+charset = "utf8"
+
+
+#로깅 환경 설정
+[logger]
+#파일로깅시 로그파일 경로
+filename = "/app/run/csupshin/monit-daemon/api-daemon.log"
+#로그파일 크기(MB), 파일크기에 도달시 백업 후 새로운 로그파일 생성
+maxsize = 100
+#백업로그파일 최대 보관기간(day)
+maxage = 10
+#최대 백업파일 갯수, 초과시 오랜된 백업파일 삭제
+maxbackups = 100
+#로깅시 타임스탬프의 기준시, true일경우 로컬타임 적용, false일경우 UTC표준시 적용
+localtime = true
+#백업파일에 대한 압축 여부
+compress = true
+#로그 레벨 설정
+level = "DEBUG"
+#파일로그 사용 여부
+fileLog = true
+#콘솔로그 사용 여부
+consoleLog = true
+
+#InfluxDB설정
+[influxDb]
+#접속정보
+addr = "http://101.55.126.198:8086"
+#DB계정 ID
+userName = "admin"
+#DB계정 패스워드
+password = "cromon123"
+#타임아웃 설정
+timeout = 10
+#DB명
+database = "metrics"
+#평균치 조회 기간(second)
+averageTime = 60
+#다음 주기별로(millisecond)
+batchWriteTerm = 1000
+#다음크기이상일 경우 전송(KB)
+batchWriteSize = 1024
+
+[openstack]
+regionName="RegionOne"
+domainName="default"
+username="admin"
+password="crossent1234"
+tenantName="admin"
+tenantId="de4b194c50e84ee4825ca92b3e326af9"
+identityEndpoint="http://101.55.126.196:5000/v3"
+keystoneUrl="http://101.55.126.196:5000/v3"
+
+#Openstack process port Check
+controllerHostName=["controller"]
+keystonePort=5000
+rabbitMqPort=15672
+glancePort=9292
+mysqlPort=3306
+radosgwPort=80
+
+[nova]
+novaUrl="http://101.55.126.196:8774"
+novaVersion="v2.1"
+novaTenantId="de4b194c50e84ee4825ca92b3e326af9"
+
+[keystone]
+keystoneUrl="http://101.55.126.196:5000"
+keystoneVersion="v3"
+
+#Openstack Neutron
+[newtron]
+newtronUrl="http://101.55.126.196:9696"
+newtronVersion="v2.0"
+
+#Openstack Cinder
+[cinder]
+cinderUrl="http://101.55.126.196:8776"
+cinderVersion="v2"
+
+#Openstack Glance
+[glance]
+glanceUrl="http://101.55.126.196:9292"
+glanceVersion="v2"
