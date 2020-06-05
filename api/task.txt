@@ -1,0 +1,7 @@
+
+1. SMS
+  - SMS Collect Process
+  - Clear SMS
+2. UI Down 현상
+3. kafka restart 시 오류
+4. collector telegraf.conf 설정
